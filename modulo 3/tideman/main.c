@@ -176,14 +176,38 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    int array[] = {};
+    int win_strong[pair_count];
 
     for(int i = 0; i < pair_count; i++)
     {
-        array[i] = pairs[i].winner - pairs[i].loser;
+        int w = pairs[i].winner;
+        int l = pairs[i].loser;
+
+        win_strong[i] = preferences[w][l] - preferences[l][w];
     }
 
-    qsort(array, sizeof(array)/sizeof(int), sizeof(int), comp);
+    qsort(win_strong, sizeof(win_strong)/sizeof(int), sizeof(int), comp);
+
+    pair temp_array[pair_count];
+    
+    for(int i = 0; i < pair_count; i++)
+    {
+        int w = pairs[i].winner;
+        int l = pairs[i].loser;
+
+        for(int j = 0; j < pair_count; j++)
+        {
+            int w_temp = temp_array[j].winner;
+            int l_temp = temp_array[j].loser;
+
+            if((preferences[w][l] - preferences[l][w]) == win_strong[j] && (preferences[w_temp][l_temp] - preferences[l_temp][w_temp]) == 0)
+            {
+                temp_array[j] = pairs[i];
+
+                break;
+            }
+        }
+    }
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
