@@ -1,5 +1,6 @@
 #include <cs50.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 // Max number of candidates
@@ -33,6 +34,26 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+
+//função de qsort
+int comp(const void *a, const void *b)
+{
+    if(*(int *) a == *(int *) b)
+    {
+        return 0;
+    }
+    else
+    {
+        if(*(int *) a < * (int*) b)
+        {
+            return 1;
+        }
+        else
+        {
+            return -1;
+        }
+    }
+}
 
 int main(int argc, string argv[])
 {
@@ -155,9 +176,14 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    
+    int array[] = {};
 
-    return;
+    for(int i = 0; i < pair_count; i++)
+    {
+        array[i] = pairs[i].winner - pairs[i].loser;
+    }
+
+    qsort(array, sizeof(array)/sizeof(int), sizeof(int), comp);
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
