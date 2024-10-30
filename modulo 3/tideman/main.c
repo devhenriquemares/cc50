@@ -149,7 +149,31 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    
+    pair stronger_pair;
+    int stronger_pair_local;
+    int victory_strength = 0;
+    int pivo = 0;
+
+    for(int j = pivo; j < pair_count; j = pivo)
+    {
+        //find the stronger victory
+        for(int i = pivo; i < pair_count; i++)
+        {
+            if(preferences[pairs[i].winner][pairs[i].loser] - preferences[pairs[i].loser][pairs[i].winner] > victory_strength)
+            {
+                stronger_pair_local = i;
+                victory_strength = preferences[pairs[i].winner][pairs[i].loser] - preferences[pairs[i].loser][pairs[i].winner];
+                stronger_pair = pairs[i];
+            }
+        }
+
+        pair temp_value;
+        temp_value = pairs[pivo];
+        pairs[pivo] = stronger_pair;
+        pairs[stronger_pair_local] = temp_value;
+
+        pivo++;
+    }
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
