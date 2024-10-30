@@ -35,26 +35,6 @@ void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
 
-//função de qsort
-int comp(const void *a, const void *b)
-{
-    if(*(int *) a == *(int *) b)
-    {
-        return 0;
-    }
-    else
-    {
-        if(*(int *) a < * (int*) b)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-}
-
 int main(int argc, string argv[])
 {
     // Verifica se o comando foi valido
@@ -152,19 +132,12 @@ void add_pairs(void)
 {
     for(int i = 0; i < candidate_count; i++)
     {
-        for(int j = i + 1; j < candidate_count; j++)
+        for(int j = 0; j < candidate_count; j++)
         {
             if(preferences[i][j] > preferences[j][i])
             {
                 pairs[pair_count].winner = i;
                 pairs[pair_count].loser = j;
-
-                pair_count++;
-            }
-            else if(preferences[i][j] < preferences[j][i])
-            {
-                pairs[pair_count].winner = j;
-                pairs[pair_count].loser = i;
 
                 pair_count++;
             }
@@ -176,38 +149,7 @@ void add_pairs(void)
 // Sort pairs in decreasing order by strength of victory
 void sort_pairs(void)
 {
-    int win_strong[pair_count];
-
-    for(int i = 0; i < pair_count; i++)
-    {
-        int w = pairs[i].winner;
-        int l = pairs[i].loser;
-
-        win_strong[i] = preferences[w][l] - preferences[l][w];
-    }
-
-    qsort(win_strong, sizeof(win_strong)/sizeof(int), sizeof(int), comp);
-
-    pair temp_array[pair_count];
     
-    for(int i = 0; i < pair_count; i++)
-    {
-        int w = pairs[i].winner;
-        int l = pairs[i].loser;
-
-        for(int j = 0; j < pair_count; j++)
-        {
-            int w_temp = temp_array[j].winner;
-            int l_temp = temp_array[j].loser;
-
-            if((preferences[w][l] - preferences[l][w]) == win_strong[j] && (preferences[w_temp][l_temp] - preferences[l_temp][w_temp]) == 0)
-            {
-                temp_array[j] = pairs[i];
-
-                break;
-            }
-        }
-    }
 }
 
 // Lock pairs into the candidate graph in order, without creating cycles
