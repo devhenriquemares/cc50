@@ -179,13 +179,18 @@ void sort_pairs(void)
 // Lock pairs into the candidate graph in order, without creating cycles
 void lock_pairs(void)
 {
-    // TODO
+    for(int i = 0; i < pair_count - 1; i++)
+    {
+        locked[pairs[i].winner][pairs[i].loser] = true;
+    }
+
     return;
 }
 
 // Print the winner of the election
 void print_winner(void)
 {
-    // TODO
+    printf("The winner of the election is: %s", candidates[pairs[0].winner]);
+
     return;
 }
